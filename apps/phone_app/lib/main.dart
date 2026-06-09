@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
 ///The home page for the phone app
 class MyHomePage extends StatefulWidget {
   ///Creates a new instance of the home page
-  const MyHomePage({required this.title, super.key, });
+  const MyHomePage({required this.title, super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
