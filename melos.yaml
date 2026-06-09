@@ -1,0 +1,20 @@
+name: bt_speaker
+
+scripts:
+  analyze:
+    description: Run flutter analyze on all packages.
+    run: melos exec --concurrency=1 -- flutter analyze --fatal-infos
+
+  format:
+    description: Check Dart formatting on all packages.
+    run: melos exec --concurrency=1 -- dart format --set-exit-if-changed .
+
+  test:
+    description: Run tests with coverage on all packages that have a test directory.
+    run: melos exec --concurrency=1 -- flutter test --coverage --test-randomize-ordering-seed=random
+    packageFilters:
+      dirExists: test
+
+  lint:
+    description: Run analyze and format checks.
+    run: melos run analyze && melos run format

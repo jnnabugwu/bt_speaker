@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package:
+          - path: packages/bt_speaker_core
+            name: bt_speaker_core
+          - path: apps/phone_app
+            name: phone_app
+          - path: apps/pi_app
+            name: pi_app
+
+    name: ${{ matrix.package.name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install root dependencies
+        run: flutter pub get
+
+      - name: Format check
+        run: dart format --set-exit-if-changed .
+        working-directory: ${{ matrix.package.path }}
+
+      - name: Analyze
+        run: flutter analyze --fatal-infos
+        working-directory: ${{ matrix.package.path }}
+
+      - name: Test with coverage
+        run: flutter test --coverage --test-randomize-ordering-seed=random
+        working-directory: ${{ matrix.package.path }}
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ${{ matrix.package.path }}/coverage/lcov.info
+          flags: ${{ matrix.package.name }}
+          fail_ci_if_error: false

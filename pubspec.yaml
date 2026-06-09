@@ -1,0 +1,10 @@
+name: bt_speaker_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.11.5
+
+workspace:
+  - apps/phone_app
+  - apps/pi_app
+  - packages/bt_speaker_core
