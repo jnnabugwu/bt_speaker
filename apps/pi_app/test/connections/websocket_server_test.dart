@@ -12,7 +12,9 @@ void main() {
     late WebSocketServer server;
 
     setUp(() {
-      server = WebSocketServer();
+      // port 0 = OS assigns a free port, avoiding conflicts when tests run
+      // concurrently across files
+      server = WebSocketServer(port: 0);
     });
 
     tearDown(() async {
@@ -26,7 +28,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       expect(states, [ConnectionStatus.waiting, ConnectionStatus.connected]);
@@ -41,7 +44,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       await client.close();
@@ -61,7 +65,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -88,7 +93,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -115,7 +121,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -136,7 +143,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -163,7 +171,8 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client = await WebSocket.connect('ws://localhost:8080');
+      final client =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       client.add('not valid json {{{{');
@@ -190,13 +199,14 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final first = await WebSocket.connect('ws://localhost:8080');
+      final first =
+          await WebSocket.connect('ws://localhost:${server.boundPort}');
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       // second connection attempt should fail with a non-101 response
       Object? error;
       try {
-        await WebSocket.connect('ws://localhost:8080');
+        await WebSocket.connect('ws://localhost:${server.boundPort}');
       } catch (e) {
         error = e;
       }

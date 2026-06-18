@@ -8,12 +8,25 @@ import 'package:pi_app/features/connections/data/ws_event.dart';
 
 ///Manages the WebSocket server on the Pi side.
 ///
-///Listens on port 8080, accepts one phone client at a time, parses incoming
-///JSON into typed [WsEvent]s, and exposes [connectionStatus] and [events]
-///streams for BLoCs to consume.
+///Listens on [port] (default 8080), accepts one phone client at a time, parses
+///incoming JSON into typed [WsEvent]s, and exposes [connectionStatus] and
+///[events] streams for BLoCs to consume.
 class WebSocketServer {
+  ///Creates a [WebSocketServer] that will bind to [port] on [start].
+  ///
+  ///Pass port `0` in tests to let the OS assign a free port, then read
+  ///the actual port from [boundPort] after [start] resolves.
+  WebSocketServer({this.port = 8080});
+
+  ///The port to bind to. Defaults to 8080.
+  final int port;
+
   HttpServer? _httpServer;
   WebSocket? _client;
+
+  ///The port the server is actually bound to after [start] is called.
+  ///Equals [port] unless port 0 was passed (OS-assigned).
+  int get boundPort => _httpServer?.port ?? port;
 
   final _status = StreamController<ConnectionStatus>.broadcast();
   final _events = StreamController<WsEvent>.broadcast();
@@ -24,12 +37,12 @@ class WebSocketServer {
   ///Emits a [WsEvent] for every valid message received from the phone
   Stream<WsEvent> get events => _events.stream;
 
-  ///Binds to port 8080 and begins accepting connections.
+  ///Binds to [port] and begins accepting connections.
   ///
   ///Only one client is accepted at a time. A second upgrade request while a
   ///client is active receives HTTP 503 and is closed immediately.
   Future<void> start() async {
-    _httpServer = await HttpServer.bind(InternetAddress.anyIPv4, 8080);
+    _httpServer = await HttpServer.bind(InternetAddress.anyIPv4, port);
     _status.add(ConnectionStatus.waiting);
 
     await for (final request in _httpServer!) {
