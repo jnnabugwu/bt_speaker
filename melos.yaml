@@ -1,5 +1,9 @@
 name: bt_speaker
 
+packages:
+  - apps/**
+  - packages/**
+
 scripts:
   analyze:
     description: Run flutter analyze on all packages.
