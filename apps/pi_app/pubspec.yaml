@@ -32,10 +32,13 @@ dependencies:
   bt_speaker_core:
     path: ../../packages/bt_speaker_core
   cupertino_icons: ^1.0.8
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
+  bloc_test: ^10.0.0
   flutter_test:
     sdk: flutter
   very_good_analysis: ^6.0.0
