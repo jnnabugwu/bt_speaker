@@ -28,8 +28,9 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       expect(states, [ConnectionStatus.waiting, ConnectionStatus.connected]);
@@ -44,29 +45,28 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       await client.close();
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      expect(
-        states,
-        [
-          ConnectionStatus.waiting,
-          ConnectionStatus.connected,
-          ConnectionStatus.waiting,
-        ],
-      );
+      expect(states, [
+        ConnectionStatus.waiting,
+        ConnectionStatus.connected,
+        ConnectionStatus.waiting,
+      ]);
     });
 
     test('emits BeatEvent for a beat message', () async {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -93,8 +93,9 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -121,8 +122,9 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -143,8 +145,9 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       final eventFuture = server.events.first;
@@ -171,8 +174,9 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final client =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final client = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       client.add('not valid json {{{{');
@@ -181,12 +185,7 @@ void main() {
       // server is still alive — a valid message after the bad one still works
       final eventFuture = server.events.first;
       client.add(
-        jsonEncode({
-          'type': kEqEvent,
-          'bass': 10,
-          'mid': 20,
-          'treble': 30,
-        }),
+        jsonEncode({'type': kEqEvent, 'bass': 10, 'mid': 20, 'treble': 30}),
       );
 
       final event = await eventFuture;
@@ -199,8 +198,9 @@ void main() {
       unawaited(server.start());
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      final first =
-          await WebSocket.connect('ws://localhost:${server.boundPort}');
+      final first = await WebSocket.connect(
+        'ws://localhost:${server.boundPort}',
+      );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       // second connection attempt should fail with a non-101 response

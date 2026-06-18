@@ -8,13 +8,12 @@ import 'package:pi_app/features/connections/data/websocket_server.dart';
 part 'package:pi_app/features/connections/bloc/connection_event.dart';
 part 'package:pi_app/features/connections/bloc/connection_state.dart';
 
-
 ///Manages the WebSocket server lifecycle and exposes connection state to the UI
 class ConnectionBloc extends Bloc<ConnectionEvent, ConnectionState> {
   ///Creates a [ConnectionBloc] with the given [WebSocketServer]
   ConnectionBloc({required WebSocketServer server})
-      : _server = server,
-        super(const ConnectionWaiting()) {
+    : _server = server,
+      super(const ConnectionWaiting()) {
     on<ConnectionStarted>(_onStarted);
     on<ConnectionStopped>(_onStopped);
     on<ConnectionStatusChanged>(_onStatusChanged);
