@@ -1,24 +1,39 @@
 name: bt_speaker
 
-packages:
-  - apps/**
-  - packages/**
-
 scripts:
   analyze:
-    description: Run flutter analyze on all packages.
+    description: Run flutter analyze on changed packages only.
     run: melos exec --concurrency=1 -- flutter analyze --fatal-infos
+    packageFilters:
+      diff: origin/main
 
   format:
-    description: Check Dart formatting on all packages.
+    description: Check Dart formatting on changed packages only.
     run: melos exec --concurrency=1 -- dart format --set-exit-if-changed .
+    packageFilters:
+      diff: origin/main
 
   test:
-    description: Run tests with coverage on all packages that have a test directory.
-    run: melos exec --concurrency=1 -- flutter test --coverage --test-randomize-ordering-seed=random
+    description: Run tests on changed packages that have a test directory.
+    run: >-
+      melos exec --concurrency=1 --
+      flutter test --coverage --test-randomize-ordering-seed=random
     packageFilters:
       dirExists: test
+      diff: origin/main
 
   lint:
-    description: Run analyze and format checks.
+    description: Run analyze and format checks on changed packages.
     run: melos run analyze && melos run format
+
+  analyze:all:
+    description: Run flutter analyze on all packages regardless of changes.
+    run: melos exec --concurrency=1 -- flutter analyze --fatal-infos
+
+  test:all:
+    description: Run tests on all packages regardless of changes.
+    run: >-
+      melos exec --concurrency=1 --
+      flutter test --coverage --test-randomize-ordering-seed=random
+    packageFilters:
+      dirExists: test
