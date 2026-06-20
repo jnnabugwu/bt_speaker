@@ -46,7 +46,12 @@ jobs:
         working-directory: ${{ matrix.package.path }}
 
       - name: Test with coverage
-        run: flutter test --coverage --test-randomize-ordering-seed=random
+        run: |
+          if [ -d "test" ]; then
+            flutter test --coverage --test-randomize-ordering-seed=random
+          else
+            echo "No test directory found, skipping."
+          fi
         working-directory: ${{ matrix.package.path }}
 
       - name: Upload coverage
