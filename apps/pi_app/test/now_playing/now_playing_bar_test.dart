@@ -9,8 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_app/features/now_playing/bloc/now_playing_bloc.dart';
 import 'package:pi_app/features/now_playing/widgets/now_playing_bar.dart';
 
-class _MockNowPlayingBloc
-    extends MockBloc<NowPlayingEvent, NowPlayingState>
+class _MockNowPlayingBloc extends MockBloc<NowPlayingEvent, NowPlayingState>
     implements NowPlayingBloc {}
 
 // Minimal 1x1 white PNG for album-art tests.
@@ -44,80 +43,69 @@ void main() {
     setUp(() => bloc = _MockNowPlayingBloc());
     tearDown(() => bloc.close());
 
-    testWidgets(
-      'shows idle placeholder when NowPlayingIdle',
-      (tester) async {
-        whenListen(
-          bloc,
-          Stream<NowPlayingState>.value(const NowPlayingIdle()),
-          initialState: const NowPlayingIdle(),
-        );
-        await tester.pumpWidget(_wrap(bloc));
-        expect(find.text('Waiting for connection...'), findsOneWidget);
-      },
-    );
+    testWidgets('shows idle placeholder when NowPlayingIdle', (tester) async {
+      whenListen(
+        bloc,
+        Stream<NowPlayingState>.value(const NowPlayingIdle()),
+        initialState: const NowPlayingIdle(),
+      );
+      await tester.pumpWidget(_wrap(bloc));
+      expect(find.text('Waiting for connection...'), findsOneWidget);
+    });
 
-    testWidgets(
-      'shows title and artist when NowPlayingActive',
-      (tester) async {
-        final state = NowPlayingActive(_track());
-        whenListen(
-          bloc,
-          Stream<NowPlayingState>.value(state),
-          initialState: state,
-        );
-        await tester.pumpWidget(_wrap(bloc));
-        expect(find.text('Song'), findsOneWidget);
-        expect(find.text('Artist — Album'), findsOneWidget);
-      },
-    );
+    testWidgets('shows title and artist when NowPlayingActive', (tester) async {
+      final state = NowPlayingActive(_track());
+      whenListen(
+        bloc,
+        Stream<NowPlayingState>.value(state),
+        initialState: state,
+      );
+      await tester.pumpWidget(_wrap(bloc));
+      expect(find.text('Song'), findsOneWidget);
+      expect(find.text('Artist — Album'), findsOneWidget);
+    });
 
-    testWidgets(
-      'progress indicator has correct value',
-      (tester) async {
-        final state = NowPlayingActive(_track());
-        whenListen(
-          bloc,
-          Stream<NowPlayingState>.value(state),
-          initialState: state,
-        );
-        await tester.pumpWidget(_wrap(bloc));
-        final indicator = tester.widget<LinearProgressIndicator>(
-          find.byType(LinearProgressIndicator),
-        );
-        expect(indicator.value, closeTo(30000 / 240000, 0.0001));
-      },
-    );
+    testWidgets('progress indicator has correct value', (tester) async {
+      final state = NowPlayingActive(_track());
+      whenListen(
+        bloc,
+        Stream<NowPlayingState>.value(state),
+        initialState: state,
+      );
+      await tester.pumpWidget(_wrap(bloc));
+      final indicator = tester.widget<LinearProgressIndicator>(
+        find.byType(LinearProgressIndicator),
+      );
+      expect(indicator.value, closeTo(30000 / 240000, 0.0001));
+    });
 
-    testWidgets(
-      'shows album art image when albumArtBase64 is provided',
-      (tester) async {
-        final state = NowPlayingActive(
-          _track(albumArtBase64: base64Encode(_kOnePx)),
-        );
-        whenListen(
-          bloc,
-          Stream<NowPlayingState>.value(state),
-          initialState: state,
-        );
-        await tester.pumpWidget(_wrap(bloc));
-        await tester.pump();
-        expect(find.byType(Image), findsOneWidget);
-      },
-    );
+    testWidgets('shows album art image when albumArtBase64 is provided', (
+      tester,
+    ) async {
+      final state = NowPlayingActive(
+        _track(albumArtBase64: base64Encode(_kOnePx)),
+      );
+      whenListen(
+        bloc,
+        Stream<NowPlayingState>.value(state),
+        initialState: state,
+      );
+      await tester.pumpWidget(_wrap(bloc));
+      await tester.pump();
+      expect(find.byType(Image), findsOneWidget);
+    });
 
-    testWidgets(
-      'shows music_note icon when albumArtBase64 is null',
-      (tester) async {
-        final state = NowPlayingActive(_track());
-        whenListen(
-          bloc,
-          Stream<NowPlayingState>.value(state),
-          initialState: state,
-        );
-        await tester.pumpWidget(_wrap(bloc));
-        expect(find.byIcon(Icons.music_note), findsOneWidget);
-      },
-    );
+    testWidgets('shows music_note icon when albumArtBase64 is null', (
+      tester,
+    ) async {
+      final state = NowPlayingActive(_track());
+      whenListen(
+        bloc,
+        Stream<NowPlayingState>.value(state),
+        initialState: state,
+      );
+      await tester.pumpWidget(_wrap(bloc));
+      expect(find.byIcon(Icons.music_note), findsOneWidget);
+    });
   });
 }

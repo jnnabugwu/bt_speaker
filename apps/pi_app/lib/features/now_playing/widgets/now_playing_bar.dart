@@ -41,8 +41,9 @@ class NowPlayingBar extends StatelessWidget {
   }
 
   Widget _buildActive(NowPlaying track) {
-    final progress =
-        track.durationMs > 0 ? track.progressMs / track.durationMs : 0.0;
+    final progress = track.durationMs > 0
+        ? track.progressMs / track.durationMs
+        : 0.0;
 
     return SizedBox(
       height: _height,

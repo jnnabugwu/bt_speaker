@@ -33,8 +33,7 @@ class VisualizerPainter extends CustomPainter {
 
     final count = fftBars.length;
     final totalGap = barGap * (count - 1);
-    final barWidth =
-        ((size.width - totalGap) / count).clamp(1.0, size.width);
+    final barWidth = ((size.width - totalGap) / count).clamp(1.0, size.width);
 
     final paint = Paint()
       ..color = barColor.withValues(

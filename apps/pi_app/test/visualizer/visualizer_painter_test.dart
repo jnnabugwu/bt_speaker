@@ -4,42 +4,38 @@ import 'package:pi_app/features/visualizer/widgets/visualizer_painter.dart';
 
 void main() {
   group('VisualizerPainter', () {
-    testWidgets(
-      'paint does not throw with empty fftBars',
-      (tester) async {
-        await tester.pumpWidget(
-          const MaterialApp(
-            home: SizedBox(
-              width: 400,
-              height: 300,
-              child: CustomPaint(
-                painter: VisualizerPainter(fftBars: [], intensity: 0),
-              ),
+    testWidgets('paint does not throw with empty fftBars', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: SizedBox(
+            width: 400,
+            height: 300,
+            child: CustomPaint(
+              painter: VisualizerPainter(fftBars: [], intensity: 0),
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
 
-    testWidgets(
-      'paint does not throw with 32 bars at full intensity',
-      (tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: SizedBox(
-              width: 400,
-              height: 300,
-              child: CustomPaint(
-                painter: VisualizerPainter(
-                  fftBars: List<double>.filled(32, 1),
-                  intensity: 1,
-                ),
+    testWidgets('paint does not throw with 32 bars at full intensity', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: SizedBox(
+            width: 400,
+            height: 300,
+            child: CustomPaint(
+              painter: VisualizerPainter(
+                fftBars: List<double>.filled(32, 1),
+                intensity: 1,
               ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
 
     test('shouldRepaint returns false for identical instance', () {
       const painter = VisualizerPainter(fftBars: [], intensity: 0);

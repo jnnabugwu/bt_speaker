@@ -7,8 +7,7 @@ import 'package:pi_app/features/visualizer/bloc/visualizer_bloc.dart';
 import 'package:pi_app/features/visualizer/widgets/visualizer_canvas.dart';
 import 'package:pi_app/features/visualizer/widgets/visualizer_painter.dart';
 
-class _MockVisualizerBloc
-    extends MockBloc<VisualizerEvent, VisualizerState>
+class _MockVisualizerBloc extends MockBloc<VisualizerEvent, VisualizerState>
     implements VisualizerBloc {}
 
 Widget _wrap(VisualizerBloc bloc) {

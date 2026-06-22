@@ -58,9 +58,6 @@ class _AppRootState extends State<AppRoot> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.black,
-      body: HomeScreen(),
-    );
+    return const Scaffold(backgroundColor: Colors.black, body: HomeScreen());
   }
 }

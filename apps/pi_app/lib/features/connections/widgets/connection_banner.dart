@@ -33,11 +33,7 @@ class ConnectionBanner extends StatelessWidget {
 }
 
 class _Banner extends StatelessWidget {
-  const _Banner({
-    required this.label,
-    required this.color,
-    required this.icon,
-  });
+  const _Banner({required this.label, required this.color, required this.icon});
 
   final String label;
   final Color color;

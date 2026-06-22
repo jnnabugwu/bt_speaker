@@ -18,8 +18,9 @@ class VisualizerCanvas extends StatelessWidget {
         final bars = state is VisualizerActive
             ? state.data.fftBars
             : const <double>[];
-        final intensity =
-            state is VisualizerActive ? state.data.intensity : 0.0;
+        final intensity = state is VisualizerActive
+            ? state.data.intensity
+            : 0.0;
 
         return CustomPaint(
           painter: VisualizerPainter(fftBars: bars, intensity: intensity),
