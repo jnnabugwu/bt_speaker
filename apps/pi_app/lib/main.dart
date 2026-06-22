@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pi_app/features/connections/bloc/connection_bloc.dart';
 import 'package:pi_app/features/connections/data/websocket_server.dart';
 import 'package:pi_app/features/eq/bloc/eq_bloc.dart';
+import 'package:pi_app/features/home/widgets/home_screen.dart';
 import 'package:pi_app/features/led/bloc/led_bloc.dart';
 import 'package:pi_app/features/now_playing/bloc/now_playing_bloc.dart';
 import 'package:pi_app/features/visualizer/bloc/visualizer_bloc.dart';
@@ -57,6 +58,9 @@ class _AppRootState extends State<AppRoot> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('BT Speaker Pi')));
+    return const Scaffold(
+      backgroundColor: Colors.black,
+      body: HomeScreen(),
+    );
   }
 }
