@@ -31,8 +31,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
           child: BlocConsumer<ConnectionBloc, ConnectionState>(
             listener: (context, state) {
               if (state is ConnectionConnected) {
-                final client =
-                    context.read<ConnectionBloc>().activeClient!;
+                final client = context.read<ConnectionBloc>().activeClient!;
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(
                     builder: (_) => HomeScreen(client: client),
@@ -89,8 +88,8 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   }
 
   VoidCallback _connect(BuildContext context) => () {
-        context.read<ConnectionBloc>().add(
-              ConnectionConnectRequested(_controller.text.trim()),
-            );
-      };
+    context.read<ConnectionBloc>().add(
+      ConnectionConnectRequested(_controller.text.trim()),
+    );
+  };
 }

@@ -66,10 +66,7 @@ void main() {
     });
 
     test('send is a no-op when not connected', () {
-      expect(
-        () => client.send({'type': 'test'}),
-        returnsNormally,
-      );
+      expect(() => client.send({'type': 'test'}), returnsNormally);
     });
 
     test('emits disconnected after disconnect()', () async {

@@ -26,24 +26,19 @@ class LedScreen extends StatelessWidget {
               DropdownButton<LedMode>(
                 value: s.mode,
                 items: LedMode.values
-                    .map(
-                      (m) => DropdownMenuItem(
-                        value: m,
-                        child: Text(m.name),
-                      ),
-                    )
+                    .map((m) => DropdownMenuItem(value: m, child: Text(m.name)))
                     .toList(),
                 onChanged: (m) {
                   if (m == null) return;
                   context.read<LedBloc>().add(
-                        LedCommandChanged(
-                          mode: m,
-                          r: s.r,
-                          g: s.g,
-                          b: s.b,
-                          brightness: s.brightness,
-                        ),
-                      );
+                    LedCommandChanged(
+                      mode: m,
+                      r: s.r,
+                      g: s.g,
+                      b: s.b,
+                      brightness: s.brightness,
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 16),
@@ -52,56 +47,56 @@ class LedScreen extends StatelessWidget {
                 color: Colors.red,
                 value: s.r,
                 onChangeEnd: (v) => context.read<LedBloc>().add(
-                      LedCommandChanged(
-                        mode: s.mode,
-                        r: v,
-                        g: s.g,
-                        b: s.b,
-                        brightness: s.brightness,
-                      ),
-                    ),
+                  LedCommandChanged(
+                    mode: s.mode,
+                    r: v,
+                    g: s.g,
+                    b: s.b,
+                    brightness: s.brightness,
+                  ),
+                ),
               ),
               _ColorSlider(
                 label: 'Green',
                 color: Colors.green,
                 value: s.g,
                 onChangeEnd: (v) => context.read<LedBloc>().add(
-                      LedCommandChanged(
-                        mode: s.mode,
-                        r: s.r,
-                        g: v,
-                        b: s.b,
-                        brightness: s.brightness,
-                      ),
-                    ),
+                  LedCommandChanged(
+                    mode: s.mode,
+                    r: s.r,
+                    g: v,
+                    b: s.b,
+                    brightness: s.brightness,
+                  ),
+                ),
               ),
               _ColorSlider(
                 label: 'Blue',
                 color: Colors.blue,
                 value: s.b,
                 onChangeEnd: (v) => context.read<LedBloc>().add(
-                      LedCommandChanged(
-                        mode: s.mode,
-                        r: s.r,
-                        g: s.g,
-                        b: v,
-                        brightness: s.brightness,
-                      ),
-                    ),
+                  LedCommandChanged(
+                    mode: s.mode,
+                    r: s.r,
+                    g: s.g,
+                    b: v,
+                    brightness: s.brightness,
+                  ),
+                ),
               ),
               _ColorSlider(
                 label: 'Brightness',
                 color: Colors.white,
                 value: s.brightness,
                 onChangeEnd: (v) => context.read<LedBloc>().add(
-                      LedCommandChanged(
-                        mode: s.mode,
-                        r: s.r,
-                        g: s.g,
-                        b: s.b,
-                        brightness: v,
-                      ),
-                    ),
+                  LedCommandChanged(
+                    mode: s.mode,
+                    r: s.r,
+                    g: s.g,
+                    b: s.b,
+                    brightness: v,
+                  ),
+                ),
               ),
               const SizedBox(height: 24),
               Container(
@@ -175,10 +170,7 @@ class _ColorSliderState extends State<_ColorSlider> {
             ),
           ),
         ),
-        SizedBox(
-          width: 40,
-          child: Text(_current.round().toString()),
-        ),
+        SizedBox(width: 40, child: Text(_current.round().toString())),
       ],
     );
   }

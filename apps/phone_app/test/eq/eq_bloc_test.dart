@@ -18,9 +18,7 @@ void main() {
     blocTest<EqBloc, EqState>(
       'emits EqCurrent with new values and sends to client',
       build: () => EqBloc(client: client),
-      act: (bloc) => bloc.add(
-        EqSettingsChanged(bass: 3, mid: -1, treble: 6),
-      ),
+      act: (bloc) => bloc.add(EqSettingsChanged(bass: 3, mid: -1, treble: 6)),
       expect: () => [
         isA<EqCurrent>()
             .having((s) => s.bass, 'bass', 3)

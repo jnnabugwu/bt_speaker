@@ -7,8 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// Fake [WebSocketClient] that emits a configurable status sequence.
 class _FakeClient extends WebSocketClient {
-  _FakeClient({required this.statusSequence})
-      : super(host: 'fake', port: 0);
+  _FakeClient({required this.statusSequence}) : super(host: 'fake', port: 0);
 
   final List<WebSocketClientStatus> statusSequence;
   final _controller = StreamController<WebSocketClientStatus>.broadcast();
@@ -44,12 +43,8 @@ void main() {
           ],
         ),
       ),
-      act: (bloc) =>
-          bloc.add(ConnectionConnectRequested('192.168.1.70')),
-      expect: () => [
-        isA<ConnectionConnecting>(),
-        isA<ConnectionConnected>(),
-      ],
+      act: (bloc) => bloc.add(ConnectionConnectRequested('192.168.1.70')),
+      expect: () => [isA<ConnectionConnecting>(), isA<ConnectionConnected>()],
     );
 
     blocTest<ConnectionBloc, ConnectionState>(
@@ -62,12 +57,8 @@ void main() {
           ],
         ),
       ),
-      act: (bloc) =>
-          bloc.add(ConnectionConnectRequested('192.168.1.70')),
-      expect: () => [
-        isA<ConnectionConnecting>(),
-        isA<ConnectionFailed>(),
-      ],
+      act: (bloc) => bloc.add(ConnectionConnectRequested('192.168.1.70')),
+      expect: () => [isA<ConnectionConnecting>(), isA<ConnectionFailed>()],
     );
 
     blocTest<ConnectionBloc, ConnectionState>(

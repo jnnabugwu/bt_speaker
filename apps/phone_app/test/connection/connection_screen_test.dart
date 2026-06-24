@@ -6,8 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockConnectionBloc
-    extends MockBloc<ConnectionEvent, ConnectionState>
+class _MockConnectionBloc extends MockBloc<ConnectionEvent, ConnectionState>
     implements ConnectionBloc {}
 
 void main() {
@@ -26,9 +25,9 @@ void main() {
     tearDown(() => bloc.close());
 
     Widget buildSubject() => BlocProvider<ConnectionBloc>.value(
-          value: bloc,
-          child: const MaterialApp(home: ConnectionScreen()),
-        );
+      value: bloc,
+      child: const MaterialApp(home: ConnectionScreen()),
+    );
 
     testWidgets('shows Connect button in idle state', (tester) async {
       whenListen(

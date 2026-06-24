@@ -11,10 +11,9 @@ part 'connection_state.dart';
 class ConnectionBloc extends Bloc<ConnectionEvent, ConnectionState> {
   /// Creates a [ConnectionBloc] that uses [clientFactory] to build a
   /// [WebSocketClient] for each new host.
-  ConnectionBloc({
-    required WebSocketClient Function(String host) clientFactory,
-  })  : _clientFactory = clientFactory,
-        super(const ConnectionIdle()) {
+  ConnectionBloc({required WebSocketClient Function(String host) clientFactory})
+    : _clientFactory = clientFactory,
+      super(const ConnectionIdle()) {
     on<ConnectionConnectRequested>(_onConnectRequested);
     on<ConnectionDisconnectRequested>(_onDisconnectRequested);
     on<ConnectionStatusUpdated>(_onStatusUpdated);
@@ -36,9 +35,7 @@ class ConnectionBloc extends Bloc<ConnectionEvent, ConnectionState> {
     await _client?.dispose();
 
     _client = _clientFactory(event.host);
-    _statusSub = _client!.status.listen(
-      (s) => add(ConnectionStatusUpdated(s)),
-    );
+    _statusSub = _client!.status.listen((s) => add(ConnectionStatusUpdated(s)));
     unawaited(_client!.connect());
   }
 

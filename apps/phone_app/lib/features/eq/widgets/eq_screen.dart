@@ -26,34 +26,22 @@ class EqScreen extends StatelessWidget {
                 label: 'Bass',
                 value: s.bass,
                 onChangeEnd: (v) => context.read<EqBloc>().add(
-                      EqSettingsChanged(
-                        bass: v,
-                        mid: s.mid,
-                        treble: s.treble,
-                      ),
-                    ),
+                  EqSettingsChanged(bass: v, mid: s.mid, treble: s.treble),
+                ),
               ),
               _EqSlider(
                 label: 'Mid',
                 value: s.mid,
                 onChangeEnd: (v) => context.read<EqBloc>().add(
-                      EqSettingsChanged(
-                        bass: s.bass,
-                        mid: v,
-                        treble: s.treble,
-                      ),
-                    ),
+                  EqSettingsChanged(bass: s.bass, mid: v, treble: s.treble),
+                ),
               ),
               _EqSlider(
                 label: 'Treble',
                 value: s.treble,
                 onChangeEnd: (v) => context.read<EqBloc>().add(
-                      EqSettingsChanged(
-                        bass: s.bass,
-                        mid: s.mid,
-                        treble: v,
-                      ),
-                    ),
+                  EqSettingsChanged(bass: s.bass, mid: s.mid, treble: v),
+                ),
               ),
             ],
           ),

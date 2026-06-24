@@ -14,13 +14,9 @@ class PhoneApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ConnectionBloc(
-        clientFactory: (host) => WebSocketClient(host: host),
-      ),
-      child: const MaterialApp(
-        title: 'BT Speaker',
-        home: ConnectionScreen(),
-      ),
+      create: (_) =>
+          ConnectionBloc(clientFactory: (host) => WebSocketClient(host: host)),
+      child: const MaterialApp(title: 'BT Speaker', home: ConnectionScreen()),
     );
   }
 }

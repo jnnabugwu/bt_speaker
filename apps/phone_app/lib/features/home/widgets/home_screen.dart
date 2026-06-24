@@ -27,9 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _disconnect(BuildContext context) {
     context.read<ConnectionBloc>().add(ConnectionDisconnectRequested());
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (_) => const ConnectionScreen(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => const ConnectionScreen()),
     );
   }
 
@@ -57,13 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,
-            onDestinationSelected: (i) =>
-                setState(() => _selectedIndex = i),
+            onDestinationSelected: (i) => setState(() => _selectedIndex = i),
             destinations: const [
-              NavigationDestination(
-                icon: Icon(Icons.graphic_eq),
-                label: 'EQ',
-              ),
+              NavigationDestination(icon: Icon(Icons.graphic_eq), label: 'EQ'),
               NavigationDestination(
                 icon: Icon(Icons.lightbulb_outline),
                 label: 'LED',

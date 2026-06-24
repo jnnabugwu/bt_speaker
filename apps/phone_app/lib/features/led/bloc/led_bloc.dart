@@ -10,17 +10,14 @@ part 'led_state.dart';
 class LedBloc extends Bloc<LedEvent, LedState> {
   /// Creates a [LedBloc] that sends updates through [client].
   LedBloc({required WebSocketClient client})
-      : _client = client,
-        super(const LedCurrent()) {
+    : _client = client,
+      super(const LedCurrent()) {
     on<LedCommandChanged>(_onCommandChanged);
   }
 
   final WebSocketClient _client;
 
-  void _onCommandChanged(
-    LedCommandChanged event,
-    Emitter<LedState> emit,
-  ) {
+  void _onCommandChanged(LedCommandChanged event, Emitter<LedState> emit) {
     emit(
       LedCurrent(
         mode: event.mode,

@@ -31,8 +31,9 @@ class WebSocketClient {
 
   WebSocket? _socket;
   bool _intentionalClose = false;
-  final _statusController =
-      StreamController<WebSocketClientStatus>.broadcast(sync: true);
+  final _statusController = StreamController<WebSocketClientStatus>.broadcast(
+    sync: true,
+  );
 
   /// Broadcast stream of connection status changes.
   Stream<WebSocketClientStatus> get status => _statusController.stream;

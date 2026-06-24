@@ -10,17 +10,14 @@ part 'eq_state.dart';
 class EqBloc extends Bloc<EqEvent, EqState> {
   /// Creates an [EqBloc] that sends updates through [client].
   EqBloc({required WebSocketClient client})
-      : _client = client,
-        super(const EqCurrent()) {
+    : _client = client,
+      super(const EqCurrent()) {
     on<EqSettingsChanged>(_onSettingsChanged);
   }
 
   final WebSocketClient _client;
 
-  void _onSettingsChanged(
-    EqSettingsChanged event,
-    Emitter<EqState> emit,
-  ) {
+  void _onSettingsChanged(EqSettingsChanged event, Emitter<EqState> emit) {
     emit(EqCurrent(bass: event.bass, mid: event.mid, treble: event.treble));
     _client.send(
       EqSettings(
