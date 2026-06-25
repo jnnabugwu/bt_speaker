@@ -37,3 +37,4 @@ scripts:
       flutter test --coverage --test-randomize-ordering-seed=random
     packageFilters:
       dirExists: test
+sdkPath: .fvm/flutter_sdk
