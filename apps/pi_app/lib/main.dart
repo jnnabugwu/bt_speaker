@@ -16,16 +16,19 @@ const _ledDaemonPath = '/home/jnnabugwu/bt_speaker/led_daemon.py';
 
 void main() {
   final server = WebSocketServer();
-  runApp(MyApp(server: server));
+  runApp(MyApp(server: server, ledDriver: ProcessLedDriver()));
 }
 
 ///Root widget for the Pi app
 class MyApp extends StatelessWidget {
-  ///Creates [MyApp] with the given [WebSocketServer]
-  const MyApp({required this.server, super.key});
+  ///Creates [MyApp] with the given [WebSocketServer] and [LedDriver]
+  const MyApp({required this.server, required this.ledDriver, super.key});
 
   ///The shared WebSocket server instance
   final WebSocketServer server;
+
+  ///The LED ring driver
+  final LedDriver ledDriver;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => NowPlayingBloc(server: server)),
         BlocProvider(create: (_) => EqBloc(server: server)),
       ],
-      child: const MaterialApp(title: 'BT Speaker', home: AppRoot()),
+      child: MaterialApp(
+        title: 'BT Speaker',
+        home: AppRoot(ledDriver: ledDriver),
+      ),
     );
   }
 }
@@ -45,14 +51,16 @@ class MyApp extends StatelessWidget {
 ///Provisions all blocs on startup and holds the app scaffold
 class AppRoot extends StatefulWidget {
   ///Creates an [AppRoot]
-  const AppRoot({super.key});
+  const AppRoot({required this.ledDriver, super.key});
+
+  ///The LED ring driver
+  final LedDriver ledDriver;
 
   @override
   State<AppRoot> createState() => _AppRootState();
 }
 
 class _AppRootState extends State<AppRoot> {
-  final _ledDriver = LedDriver();
   StreamSubscription<LedState>? _ledSub;
 
   @override
@@ -64,12 +72,12 @@ class _AppRootState extends State<AppRoot> {
     context.read<NowPlayingBloc>().add(NowPlayingStarted());
     context.read<EqBloc>().add(EqStarted());
 
-    unawaited(_ledDriver.start(_ledDaemonPath));
+    unawaited(widget.ledDriver.start(_ledDaemonPath));
     _ledSub = context.read<LedBloc>().stream.listen((state) {
       if (state is LedActive) {
-        _ledDriver.apply(state.command);
+        widget.ledDriver.apply(state.command);
       } else if (state is LedIdle) {
-        _ledDriver.apply(
+        widget.ledDriver.apply(
           const LedCommand(mode: LedMode.off, r: 0, g: 0, b: 0, brightness: 0),
         );
       }
@@ -79,7 +87,7 @@ class _AppRootState extends State<AppRoot> {
   @override
   void dispose() {
     _ledSub?.cancel();
-    unawaited(_ledDriver.dispose());
+    unawaited(widget.ledDriver.dispose());
     super.dispose();
   }
 
