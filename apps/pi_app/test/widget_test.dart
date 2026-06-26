@@ -1,9 +1,22 @@
+import 'package:bt_speaker_core/led_command.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_app/features/connections/bloc/connection_bloc.dart';
 import 'package:pi_app/features/connections/data/websocket_server.dart';
 import 'package:pi_app/features/home/widgets/home_screen.dart';
+import 'package:pi_app/features/led/data/led_driver.dart';
 import 'package:pi_app/main.dart';
+
+class _FakeLedDriver implements LedDriver {
+  @override
+  Future<void> start(String scriptPath) async {}
+
+  @override
+  void apply(LedCommand command) {}
+
+  @override
+  Future<void> dispose() async {}
+}
 
 void main() {
   testWidgets('App renders HomeScreen without crashing', (tester) async {
@@ -12,7 +25,9 @@ void main() {
     // settles the background server loop.
     await tester.runAsync(() async {
       final server = WebSocketServer(port: 0);
-      await tester.pumpWidget(MyApp(server: server));
+      await tester.pumpWidget(
+        MyApp(server: server, ledDriver: _FakeLedDriver()),
+      );
       await tester.pump();
       expect(find.byType(HomeScreen), findsOneWidget);
       await tester.element(find.byType(AppRoot)).read<ConnectionBloc>().close();
