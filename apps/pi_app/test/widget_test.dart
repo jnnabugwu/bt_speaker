@@ -1,3 +1,4 @@
+import 'package:bt_speaker_core/beat_data.dart';
 import 'package:bt_speaker_core/led_command.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -5,6 +6,7 @@ import 'package:pi_app/features/connections/bloc/connection_bloc.dart';
 import 'package:pi_app/features/connections/data/websocket_server.dart';
 import 'package:pi_app/features/home/widgets/home_screen.dart';
 import 'package:pi_app/features/led/data/led_driver.dart';
+import 'package:pi_app/features/visualizer/data/audio_driver.dart';
 import 'package:pi_app/main.dart';
 
 class _FakeLedDriver implements LedDriver {
@@ -18,6 +20,17 @@ class _FakeLedDriver implements LedDriver {
   Future<void> dispose() async {}
 }
 
+class _FakeAudioDriver implements AudioDriver {
+  @override
+  Future<void> start(String scriptPath) async {}
+
+  @override
+  Stream<BeatData> get beats => const Stream.empty();
+
+  @override
+  Future<void> dispose() async {}
+}
+
 void main() {
   testWidgets('App renders HomeScreen without crashing', (tester) async {
     // runAsync lets real IO run so server.start() can bind and server.stop()
@@ -26,7 +39,11 @@ void main() {
     await tester.runAsync(() async {
       final server = WebSocketServer(port: 0);
       await tester.pumpWidget(
-        MyApp(server: server, ledDriver: _FakeLedDriver()),
+        MyApp(
+          server: server,
+          ledDriver: _FakeLedDriver(),
+          audioDriver: _FakeAudioDriver(),
+        ),
       );
       await tester.pump();
       expect(find.byType(HomeScreen), findsOneWidget);

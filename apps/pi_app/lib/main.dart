@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bt_speaker_core/beat_data.dart';
 import 'package:bt_speaker_core/led_command.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,24 +12,41 @@ import 'package:pi_app/features/led/bloc/led_bloc.dart';
 import 'package:pi_app/features/led/data/led_driver.dart';
 import 'package:pi_app/features/now_playing/bloc/now_playing_bloc.dart';
 import 'package:pi_app/features/visualizer/bloc/visualizer_bloc.dart';
+import 'package:pi_app/features/visualizer/data/audio_driver.dart';
 
 const _ledDaemonPath = '/home/jnnabugwu/bt_speaker/led_daemon.py';
+const _fftDaemonPath = '/home/jnnabugwu/bt_speaker/fft_daemon.py';
 
 void main() {
   final server = WebSocketServer();
-  runApp(MyApp(server: server, ledDriver: ProcessLedDriver()));
+  runApp(
+    MyApp(
+      server: server,
+      ledDriver: ProcessLedDriver(),
+      audioDriver: FftProcessDriver(),
+    ),
+  );
 }
 
 ///Root widget for the Pi app
 class MyApp extends StatelessWidget {
-  ///Creates [MyApp] with the given [WebSocketServer] and [LedDriver]
-  const MyApp({required this.server, required this.ledDriver, super.key});
+  ///Creates [MyApp] with the given [WebSocketServer],
+  ///[LedDriver], and [AudioDriver]
+  const MyApp({
+    required this.server,
+    required this.ledDriver,
+    required this.audioDriver,
+    super.key,
+  });
 
   ///The shared WebSocket server instance
   final WebSocketServer server;
 
   ///The LED ring driver
   final LedDriver ledDriver;
+
+  ///The FFT audio analysis driver
+  final AudioDriver audioDriver;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +60,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'BT Speaker',
-        home: AppRoot(ledDriver: ledDriver),
+        home: AppRoot(ledDriver: ledDriver, audioDriver: audioDriver),
       ),
     );
   }
@@ -51,10 +69,17 @@ class MyApp extends StatelessWidget {
 ///Provisions all blocs on startup and holds the app scaffold
 class AppRoot extends StatefulWidget {
   ///Creates an [AppRoot]
-  const AppRoot({required this.ledDriver, super.key});
+  const AppRoot({
+    required this.ledDriver,
+    required this.audioDriver,
+    super.key,
+  });
 
   ///The LED ring driver
   final LedDriver ledDriver;
+
+  ///The FFT audio analysis driver
+  final AudioDriver audioDriver;
 
   @override
   State<AppRoot> createState() => _AppRootState();
@@ -62,6 +87,7 @@ class AppRoot extends StatefulWidget {
 
 class _AppRootState extends State<AppRoot> {
   StreamSubscription<LedState>? _ledSub;
+  StreamSubscription<BeatData>? _beatSub;
 
   @override
   void initState() {
@@ -82,12 +108,20 @@ class _AppRootState extends State<AppRoot> {
         );
       }
     });
+
+    unawaited(widget.audioDriver.start(_fftDaemonPath));
+    final visualizerBloc = context.read<VisualizerBloc>();
+    _beatSub = widget.audioDriver.beats.listen((beat) {
+      visualizerBloc.add(VisualizerBeatReceived(beat));
+    });
   }
 
   @override
   void dispose() {
     _ledSub?.cancel();
+    _beatSub?.cancel();
     unawaited(widget.ledDriver.dispose());
+    unawaited(widget.audioDriver.dispose());
     super.dispose();
   }
 
