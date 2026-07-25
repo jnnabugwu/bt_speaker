@@ -5,11 +5,15 @@ import 'package:bt_speaker/features/eq/bloc/eq_bloc.dart';
 import 'package:bt_speaker/features/eq/widgets/eq_screen.dart';
 import 'package:bt_speaker/features/led/bloc/led_bloc.dart';
 import 'package:bt_speaker/features/led/widgets/led_screen.dart';
+import 'package:bt_speaker/features/now_playing/bloc/now_playing_bloc.dart';
+import 'package:bt_speaker/features/now_playing/data/spotify_auth_gateway.dart';
+import 'package:bt_speaker/features/now_playing/data/spotify_service.dart';
+import 'package:bt_speaker/features/now_playing/widgets/now_playing_screen.dart';
 import 'package:flutter/material.dart' hide ConnectionState;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Main screen shown after a successful connection.
-/// Hosts EQ and LED tabs, each backed by their own BLoC.
+/// Hosts EQ, LED, and Now Playing tabs, each backed by their own BLoC.
 class HomeScreen extends StatefulWidget {
   /// Creates a [HomeScreen] with an open [client].
   const HomeScreen({required this.client, super.key});
@@ -37,6 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
       providers: [
         BlocProvider(create: (_) => EqBloc(client: widget.client)),
         BlocProvider(create: (_) => LedBloc(client: widget.client)),
+        BlocProvider(
+          create: (context) => NowPlayingBloc(
+            client: widget.client,
+            spotifyService: context.read<SpotifyService>(),
+            authCompleted: context.read<SpotifyAuthGateway>().authCompleted,
+          )..add(const NowPlayingStarted()),
+        ),
       ],
       child: Builder(
         builder: (context) => Scaffold(
@@ -51,16 +62,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: const [EqScreen(), LedScreen()],
+            children: const [EqScreen(), LedScreen(), NowPlayingScreen()],
           ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,
-            onDestinationSelected: (i) => setState(() => _selectedIndex = i),
+            onDestinationSelected: (i) =>
+                setState(() => _selectedIndex = i),
             destinations: const [
-              NavigationDestination(icon: Icon(Icons.graphic_eq), label: 'EQ'),
+              NavigationDestination(
+                icon: Icon(Icons.graphic_eq),
+                label: 'EQ',
+              ),
               NavigationDestination(
                 icon: Icon(Icons.lightbulb_outline),
                 label: 'LED',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.music_note),
+                label: 'Now Playing',
               ),
             ],
           ),

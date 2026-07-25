@@ -46,3 +46,6 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Spotify credentials (contains client ID — use spotify_credentials.dart.example as template)
+apps/phone_app/lib/features/now_playing/data/spotify_credentials.dart

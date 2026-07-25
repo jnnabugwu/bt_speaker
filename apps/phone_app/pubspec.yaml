@@ -29,13 +29,18 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  app_links: ^6.3.2
   bt_speaker_core:
     path: ../../packages/bt_speaker_core
+  crypto: ^3.0.6
   cupertino_icons: ^1.0.8
   equatable: ^2.0.7
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_secure_storage: ^9.2.4
+  http: ^1.2.2
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   bloc_test: ^10.0.0
