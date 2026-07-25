@@ -95,9 +95,7 @@ void main() {
           durationMs: 1000,
         );
         when(() => spotify.isAuthenticated).thenAnswer((_) async => true);
-        when(
-          () => spotify.currentlyPlaying(),
-        ).thenAnswer((_) async => track);
+        when(() => spotify.currentlyPlaying()).thenAnswer((_) async => track);
 
         final bloc = NowPlayingBloc(
           client: client,

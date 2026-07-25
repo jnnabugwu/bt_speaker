@@ -102,8 +102,10 @@ void main() {
         () => storage.read(key: 'spotify_refresh_token'),
       ).thenAnswer((_) async => 'refresh-token');
       when(
-        () =>
-            storage.write(key: any(named: 'key'), value: any(named: 'value')),
+        () => storage.write(
+          key: any(named: 'key'),
+          value: any(named: 'value'),
+        ),
       ).thenAnswer((_) async {});
 
       var callCount = 0;

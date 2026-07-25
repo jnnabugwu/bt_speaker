@@ -22,9 +22,9 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
     required WebSocketClient client,
     required SpotifyService spotifyService,
     required Stream<void> authCompleted,
-  })  : _client = client,
-        _spotify = spotifyService,
-        super(const NowPlayingUnauthenticated()) {
+  }) : _client = client,
+       _spotify = spotifyService,
+       super(const NowPlayingUnauthenticated()) {
     on<NowPlayingStarted>(_onStarted);
     on<NowPlayingAuthRequested>(_onAuthRequested);
     on<NowPlayingAuthCompleted>(_onAuthCompleted);

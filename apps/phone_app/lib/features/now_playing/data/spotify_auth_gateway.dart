@@ -15,7 +15,7 @@ import 'package:bt_speaker/features/now_playing/data/spotify_service.dart';
 class SpotifyAuthGateway {
   /// Creates a [SpotifyAuthGateway] backed by [spotifyService].
   SpotifyAuthGateway({required SpotifyService spotifyService})
-      : _spotify = spotifyService;
+    : _spotify = spotifyService;
 
   final SpotifyService _spotify;
   final _authCompleted = StreamController<void>.broadcast();

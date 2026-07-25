@@ -7,8 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockNowPlayingBloc
-    extends MockBloc<NowPlayingEvent, NowPlayingState>
+class _MockNowPlayingBloc extends MockBloc<NowPlayingEvent, NowPlayingState>
     implements NowPlayingBloc {}
 
 void main() {
@@ -94,9 +93,7 @@ void main() {
       expect(find.text('Disconnect Spotify'), findsOneWidget);
     });
 
-    testWidgets('dispatches logout on Disconnect Spotify tap', (
-      tester,
-    ) async {
+    testWidgets('dispatches logout on Disconnect Spotify tap', (tester) async {
       const track = NowPlaying(
         title: 'Song Title',
         artist: 'The Artist',

@@ -47,10 +47,7 @@ class _PhoneAppState extends State<PhoneApp> {
         create: (_) => ConnectionBloc(
           clientFactory: (host) => WebSocketClient(host: host),
         ),
-        child: const MaterialApp(
-          title: 'BT Speaker',
-          home: ConnectionScreen(),
-        ),
+        child: const MaterialApp(title: 'BT Speaker', home: ConnectionScreen()),
       ),
     );
   }

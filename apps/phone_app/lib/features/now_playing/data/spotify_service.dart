@@ -21,11 +21,9 @@ const _keyCodeVerifier = 'spotify_code_verifier';
 /// Handles Spotify PKCE OAuth and the currently-playing API endpoint.
 class SpotifyService {
   /// Creates a [SpotifyService] with optional [storage] and [client] overrides.
-  SpotifyService({
-    FlutterSecureStorage? storage,
-    http.Client? client,
-  })  : _storage = storage ?? const FlutterSecureStorage(),
-        _client = client ?? http.Client();
+  SpotifyService({FlutterSecureStorage? storage, http.Client? client})
+    : _storage = storage ?? const FlutterSecureStorage(),
+      _client = client ?? http.Client();
 
   final FlutterSecureStorage _storage;
   final http.Client _client;
@@ -126,10 +124,8 @@ class SpotifyService {
 
   // ── Private helpers ───────────────────────────────────────────────────
 
-  Future<http.Response> _get(String url, String token) => _client.get(
-        Uri.parse(url),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+  Future<http.Response> _get(String url, String token) =>
+      _client.get(Uri.parse(url), headers: {'Authorization': 'Bearer $token'});
 
   Future<bool> _refresh() async {
     final refreshToken = await _storage.read(key: _keyRefreshToken);
@@ -170,8 +166,9 @@ class SpotifyService {
     final album = item['album'] as Map<String, dynamic>;
     final albumName = album['name'] as String;
     final images = album['images'] as List<dynamic>;
-    final artUrl =
-        images.isNotEmpty ? (images.first as Map)['url'] as String? : null;
+    final artUrl = images.isNotEmpty
+        ? (images.first as Map)['url'] as String?
+        : null;
 
     String? artBase64;
     if (artUrl != null) {

@@ -66,13 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           bottomNavigationBar: NavigationBar(
             selectedIndex: _selectedIndex,
-            onDestinationSelected: (i) =>
-                setState(() => _selectedIndex = i),
+            onDestinationSelected: (i) => setState(() => _selectedIndex = i),
             destinations: const [
-              NavigationDestination(
-                icon: Icon(Icons.graphic_eq),
-                label: 'EQ',
-              ),
+              NavigationDestination(icon: Icon(Icons.graphic_eq), label: 'EQ'),
               NavigationDestination(
                 icon: Icon(Icons.lightbulb_outline),
                 label: 'LED',

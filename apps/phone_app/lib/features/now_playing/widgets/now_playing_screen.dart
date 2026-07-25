@@ -38,9 +38,9 @@ class _UnauthView extends StatelessWidget {
           ElevatedButton.icon(
             icon: const Icon(Icons.login),
             label: const Text('Connect Spotify'),
-            onPressed: () => context
-                .read<NowPlayingBloc>()
-                .add(const NowPlayingAuthRequested()),
+            onPressed: () => context.read<NowPlayingBloc>().add(
+              const NowPlayingAuthRequested(),
+            ),
           ),
         ],
       ),
@@ -99,10 +99,7 @@ class _ActiveView extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             track.title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
@@ -123,9 +120,9 @@ class _ActiveView extends StatelessWidget {
           TextButton.icon(
             icon: const Icon(Icons.logout, size: 16),
             label: const Text('Disconnect Spotify'),
-            onPressed: () => context
-                .read<NowPlayingBloc>()
-                .add(const NowPlayingLogoutRequested()),
+            onPressed: () => context.read<NowPlayingBloc>().add(
+              const NowPlayingLogoutRequested(),
+            ),
           ),
         ],
       ),
