@@ -37,6 +37,11 @@ jobs:
       - name: Install root dependencies
         run: flutter pub get
 
+      - name: Set up Spotify credentials stub
+        if: matrix.package.name == 'phone_app'
+        run: cp lib/features/now_playing/data/spotify_credentials.dart.example lib/features/now_playing/data/spotify_credentials.dart
+        working-directory: ${{ matrix.package.path }}
+
       - name: Format check
         run: dart format --set-exit-if-changed .
         working-directory: ${{ matrix.package.path }}
