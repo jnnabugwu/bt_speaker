@@ -33,12 +33,12 @@ class FftProcessDriver implements AudioDriver {
         .transform(utf8.decoder)
         .transform(const LineSplitter())
         .listen((line) {
-      try {
-        _controller.add(
-          BeatData.fromJson(jsonDecode(line) as Map<String, dynamic>),
-        );
-      } catch (_) {}
-    });
+          try {
+            _controller.add(
+              BeatData.fromJson(jsonDecode(line) as Map<String, dynamic>),
+            );
+          } catch (_) {}
+        });
   }
 
   @override
